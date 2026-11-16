@@ -8,12 +8,15 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 
 import 'finish_screen.dart';
+import 'petal_game_screen.dart';
 import '../core/constants/app_constants.dart';
+import '../core/widgets/botanical_background.dart';
 import '../core/widgets/common_widgets.dart';
 import '../core/utils/audio_utils.dart';
 import '../core/utils/navigation_utils.dart';
 import '../core/utils/session_utils.dart';
 import 'package:audioplayers/audioplayers.dart';
+import '../core/widgets/talk_button.dart';
 
 /// The bubble pop game screen widget.
 ///
@@ -74,8 +77,8 @@ class _BubblePopGameScreenState extends State<BubblePopGameScreen> {
   /// Returns a list of vibrant, evenly distributed colors
   List<Color> _generateUniqueVividColors(int count) {
     return List.generate(count, (i) {
-      // Distribute hues evenly across the color spectrum
-      double hue = (i * (360.0 / count)) % 360;
+      // Spread hues across the warm sunset range: pink -> coral -> gold
+      double hue = (330 + i * (80.0 / count)) % 360;
       return HSVColor.fromAHSV(
         1.0,
         hue,
@@ -207,19 +210,23 @@ class _BubblePopGameScreenState extends State<BubblePopGameScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: const TalkToBloomButton(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
       backgroundColor: AppColors.background,
-      body: LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-          final screenWidth = constraints.maxWidth;
-          final screenHeight = constraints.maxHeight;
-          final bubbleAreaHeight = _calculateBubbleAreaHeight(screenHeight);
+      body: BotanicalBackground(
+        child: LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints constraints) {
+            final screenWidth = constraints.maxWidth;
+            final screenHeight = constraints.maxHeight;
+            final bubbleAreaHeight = _calculateBubbleAreaHeight(screenHeight);
 
-          // Generate new bubbles if needed
-          _ensureBubblesGenerated(screenWidth, bubbleAreaHeight);
+            // Generate new bubbles if needed
+            _ensureBubblesGenerated(screenWidth, bubbleAreaHeight);
 
-          return _buildMainContent(
-              context, screenWidth, screenHeight, bubbleAreaHeight);
-        },
+            return _buildMainContent(
+                context, screenWidth, screenHeight, bubbleAreaHeight);
+          },
+        ),
       ),
     );
   }
@@ -231,7 +238,8 @@ class _BubblePopGameScreenState extends State<BubblePopGameScreen> {
       children: [
         const Spacer(flex: 3), // Keep header position unchanged
         _buildHeader(),
-        _buildBubbleArea(screenWidth, bubbleAreaHeight), // Removed spacer to move bubble area up
+        _buildBubbleArea(screenWidth,
+            bubbleAreaHeight), // Removed spacer to move bubble area up
         const Spacer(flex: 1), // Added spacer to move buttons down
         _buildNavigationButtons(context, screenWidth),
         const Spacer(flex: 1), // Reduced bottom spacing to compensate
@@ -256,7 +264,9 @@ class _BubblePopGameScreenState extends State<BubblePopGameScreen> {
     return Center(
       child: Column(
         children: [
-          const SizedBox(height: AppSizes.spacingLarge), // Increased to move text down more
+          const SizedBox(
+              height:
+                  AppSizes.spacingLarge), // Increased to move text down more
           Text(
             'Pop the Bubbles\nin Order',
             textAlign: TextAlign.center,
@@ -312,7 +322,10 @@ class _BubblePopGameScreenState extends State<BubblePopGameScreen> {
         AppElevatedButton(
           text: 'Next',
           widthRatio: AppSizes.buttonWidthRatio,
-          onPressed: () => _navigateToFinish(sessionStart),
+          onPressed: () => NavigationUtils.navigateToScreen(
+            context,
+            PetalGameScreen(startTime: sessionStart),
+          ),
         ),
         AppTextButton(
           text: 'Finish Session',

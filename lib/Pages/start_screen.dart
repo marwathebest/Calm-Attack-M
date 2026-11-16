@@ -5,13 +5,18 @@
 /// with clear call-to-action to start the breathing exercise.
 
 import 'dart:math';
+
 import 'package:flutter/material.dart';
+
+import '../Animations/breathing_flower.dart';
 
 import 'breathing_screen.dart';
 import '../core/constants/app_constants.dart';
+import '../core/widgets/botanical_background.dart';
 import '../core/widgets/common_widgets.dart';
 import '../core/utils/navigation_utils.dart';
 import '../core/utils/session_utils.dart';
+import '../core/widgets/talk_button.dart';
 
 /// The start screen widget that welcomes users and initiates sessions.
 ///
@@ -27,45 +32,61 @@ class StartScreen extends StatelessWidget {
     final screenSize = MediaQuery.of(context).size;
 
     return Scaffold(
-      body: GradientBackground(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const SizedBox(height: AppSizes.spacingMedium),
+      floatingActionButton: const TalkToBloomButton(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
+      body: BotanicalBackground(
+        child: SafeArea(
+          child: LayoutBuilder(
+            builder: (context, constraints) => SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+              child: ConstrainedBox(
+                // At least screen height, so the content stays centered
+                // vertically, while still scrolling on very small screens.
+                constraints: BoxConstraints(
+                  minHeight: max(0, constraints.maxHeight - 64),
+                ),
+                child: Center(
+                  child: ConstrainedBox(
+                    // Keep the layout comfortable on tablets and the web.
+                    constraints: const BoxConstraints(maxWidth: 520),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const SizedBox(height: AppSizes.spacingMedium),
 
-              // Main welcome message
-              const ScreenHeader(
-                title: 'Are you having a\nPanic Attack?',
-                titleStyle: AppTextStyles.heading1,
+                        // Main welcome message
+                        ScreenHeader(
+                          title: 'Are you having a\nPanic Attack?',
+                          titleStyle: AppTextStyles.heading1.copyWith(
+                            color: AppColors.primaryDeep,
+                          ),
+                        ),
+
+                        const SizedBox(height: AppSizes.spacingMedium),
+
+                        // The app's flower character, gently breathing
+                        FlowerMascot(
+                          width: min(
+                            screenSize.width > 600
+                                ? 260.0
+                                : screenSize.width * 0.5,
+                            screenSize.height * 0.28,
+                          ),
+                        ),
+
+                        const SizedBox(height: AppSizes.spacingLarge * 2),
+
+                        // Get Started button
+                        _buildGetStartedButton(context),
+                      ],
+                    ),
+                  ),
+                ),
               ),
-
-              const SizedBox(height: AppSizes.spacingMedium),
-
-              // App branding image with rotation
-              _buildBrandingImage(screenSize),
-
-              const SizedBox(height: AppSizes.spacingXLarge),
-
-              // Get Started button
-              _buildGetStartedButton(context),
-            ],
+            ),
           ),
         ),
-      ),
-    );
-  }
-
-  /// Builds the rotated branding image.
-  ///
-  /// The image is rotated by -17.8 degrees for visual appeal
-  /// and scaled responsively based on screen size.
-  Widget _buildBrandingImage(Size screenSize) {
-    return Transform.rotate(
-      angle: -17.8 * pi / 180, // Rotating the image by -17.8 degrees
-      child: Image.asset(
-        AppImages.panicAttackImage,
-        width: screenSize.width * AppSizes.imageWidthRatio,
       ),
     );
   }
@@ -79,6 +100,7 @@ class StartScreen extends StatelessWidget {
   Widget _buildGetStartedButton(BuildContext context) {
     return AppElevatedButton(
       text: 'Get Started',
+      backgroundColor: AppColors.primaryDeep,
       onPressed: () => _handleGetStarted(context),
     );
   }

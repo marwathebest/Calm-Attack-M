@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_print
 
 import 'package:flutter/material.dart';
+import '../core/constants/app_constants.dart';
 import 'package:audioplayers/audioplayers.dart';
 
 class AudioPlayerButtons extends StatefulWidget {
@@ -46,15 +47,15 @@ class _AudioPlayerButtonsState extends State<AudioPlayerButtons> {
       children: [
         // Previous button
         _buildIconButton(Icons.skip_previous, _playPreviousSound,
-            const Color(0xffEBF4FD), const Color(0xff0F073E)),
+            AppColors.surfaceSoft, AppColors.primary),
         const SizedBox(width: 35),
         // Play/Pause toggle button
         _buildIconButton(isPlaying ? Icons.pause : Icons.play_arrow,
-            _togglePlayPause, const Color(0xff0F073E), const Color(0xffEBF4FD)),
+            _togglePlayPause, AppColors.primary, AppColors.surfaceSoft),
         const SizedBox(width: 35),
         // Next button
-        _buildIconButton(Icons.skip_next, _playNextSound,
-            const Color(0xffEBF4FD), const Color(0xff0F073E)),
+        _buildIconButton(Icons.skip_next, _playNextSound, AppColors.surfaceSoft,
+            AppColors.primary),
       ],
     );
   }
@@ -70,7 +71,7 @@ class _AudioPlayerButtonsState extends State<AudioPlayerButtons> {
         shape: BoxShape.circle,
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withValues(alpha: 0.7),
+            color: AppColors.primaryDeep.withValues(alpha: 0.25),
             spreadRadius: 0.1,
             blurRadius: 1,
             offset: const Offset(0, 3), // Shadow position

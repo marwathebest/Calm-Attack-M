@@ -1,0 +1,21 @@
+{
+  "name": "calm-attack-companion",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Small server that connects the Calm Attack app to the OpenAI API without putting the API key in the app.",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "engines": {
+    "node": ">=23.6"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "typescript": "^7.0.2"
+  },
+  "dependencies": {
+    "openai": "^7.57.0"
+  }
+}

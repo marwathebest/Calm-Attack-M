@@ -10,11 +10,13 @@ import 'package:audioplayers/audioplayers.dart';
 import '../Animations/audio_spectrum_lines.dart';
 import '../Buttons/audio_player_buttons.dart';
 import 'finish_screen.dart';
-import 'vibration_screen.dart';
+import 'smell_screen.dart';
 import '../core/constants/app_constants.dart';
+import '../core/widgets/botanical_background.dart';
 import '../core/widgets/common_widgets.dart';
 import '../core/utils/navigation_utils.dart';
 import '../core/utils/audio_utils.dart';
+import '../core/widgets/talk_button.dart';
 
 /// The audio screen widget providing sound therapy features.
 ///
@@ -55,22 +57,26 @@ class _AudioScreenState extends State<AudioScreen> {
     final screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
+      floatingActionButton: const TalkToBloomButton(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
       backgroundColor: AppColors.background,
-      body: Center(
-        child: Padding(
-          padding: EdgeInsets.only(top: screenHeight * 0.15),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              _buildHeader(),
-              _buildCurrentSoundTitle(),
-              SizedBox(height: screenHeight * 0.03),
-              _buildAudioSpectrumContainer(screenWidth, screenHeight),
-              SizedBox(height: screenHeight * 0.06),
-              _buildAudioPlayerButtons(),
-              SizedBox(height: screenHeight * 0.04),
-              _buildNavigationButtons(context, screenWidth),
-            ],
+      body: BotanicalBackground(
+        child: Center(
+          child: Padding(
+            padding: EdgeInsets.only(top: screenHeight * 0.15),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                _buildHeader(),
+                _buildCurrentSoundTitle(),
+                SizedBox(height: screenHeight * 0.03),
+                _buildAudioSpectrumContainer(screenWidth, screenHeight),
+                SizedBox(height: screenHeight * 0.06),
+                _buildAudioPlayerButtons(),
+                SizedBox(height: screenHeight * 0.04),
+                _buildNavigationButtons(context, screenWidth),
+              ],
+            ),
           ),
         ),
       ),
@@ -88,7 +94,7 @@ class _AudioScreenState extends State<AudioScreen> {
   /// Builds the current sound title with gradient effect.
   Widget _buildCurrentSoundTitle() {
     final Shader linearGradient = const LinearGradient(
-      colors: [AppColors.accentBlue, AppColors.accentTeal],
+      colors: [AppColors.accentRose, AppColors.accentCoral],
       stops: [0.1, 0.40],
       begin: Alignment.centerLeft,
       end: Alignment.centerRight,
@@ -117,11 +123,11 @@ class _AudioScreenState extends State<AudioScreen> {
         maxHeight: 300,
       ),
       decoration: BoxDecoration(
-        color: const Color(0xffEBF4FD),
+        color: AppColors.surfaceSoft,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withValues(alpha: 0.7),
+            color: AppColors.primaryDeep.withValues(alpha: 0.25),
             spreadRadius: 0.1,
             blurRadius: 1,
             offset: const Offset(0, 3),
@@ -150,7 +156,7 @@ class _AudioScreenState extends State<AudioScreen> {
         AppElevatedButton(
           text: 'Next',
           widthRatio: AppSizes.buttonWidthRatio,
-          onPressed: () => _navigateToVibrationScreen(),
+          onPressed: () => _navigateToSmellScreen(),
         ),
         AppTextButton(
           text: 'Finish Session',
@@ -174,12 +180,12 @@ class _AudioScreenState extends State<AudioScreen> {
     });
   }
 
-  /// Navigates to the vibration screen.
-  void _navigateToVibrationScreen() {
+  /// Navigates to the smell screen.
+  void _navigateToSmellScreen() {
     _stopAudioAndNavigate(() {
       NavigationUtils.navigateToScreen(
         context,
-        VibrationScreen(startTime: widget.startTime),
+        SmellScreen(startTime: widget.startTime),
       );
     });
   }

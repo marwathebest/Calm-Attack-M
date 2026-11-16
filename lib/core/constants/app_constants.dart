@@ -7,20 +7,27 @@ import 'package:flutter/material.dart';
 
 /// App-wide color constants
 class AppColors {
+  // "Calm sunset" theme: warm peach, soft rose and deep plum.
+
   // Primary brand colors
-  static const Color primaryDark = Color(0xff0F073E);
-  static const Color primaryBlue = Color(0xff052D94);
-  static const Color gradientStart = Color.fromARGB(255, 38, 59, 173);
-  static const Color gradientEnd = Color(0xff00c4b2);
+  static const Color primary = Color(0xffC7697A); // Soft rose: buttons, app bar
+  static const Color primaryDeep = Color(0xff7A3E48); // Deep plum: headings
+  static const Color gradientStart = Color(0xffC7697A);
+  static const Color gradientEnd = Color(0xffF6B8A8);
 
   // Accent colors
-  static const Color accentBlue = Color(0xff3E3BD4);
-  static const Color accentTeal = Color(0xff1AAC9B);
+  static const Color accentRose = Color(0xffC7697A);
+  static const Color accentCoral = Color(0xffE8907A);
+  static const Color accentPeach = Color(0xffF6B8A8);
 
-  // System colors
-  static const Color textPrimary = Colors.black;
+  // Surfaces
+  static const Color background = Color(0xffFFF4EE); // Warm cream
+  static const Color surfaceSoft = Color(0xffFFE6DC); // Light peach cards
+
+  // Text colors
+  static const Color textPrimary = Color(0xff5C3A3F);
+  static const Color textSecondary = Color(0xff8A6A6E);
   static const Color textOnPrimary = Colors.white;
-  static const Color background = Colors.white;
 
   // Prevent instantiation
   AppColors._();
@@ -38,13 +45,13 @@ class AppTextStyles {
   static const TextStyle heading2 = TextStyle(
     fontSize: 33,
     fontWeight: FontWeight.bold,
-    color: AppColors.primaryDark,
+    color: AppColors.primaryDeep,
   );
 
   static const TextStyle heading3 = TextStyle(
     fontSize: 30,
     fontWeight: FontWeight.bold,
-    color: AppColors.primaryDark,
+    color: AppColors.primaryDeep,
   );
 
   // Body text
@@ -75,7 +82,7 @@ class AppTextStyles {
   static TextStyle bodyTextSecondary = TextStyle(
     fontSize: 16,
     fontWeight: FontWeight.w800,
-    color: Colors.grey[700],
+    color: AppColors.textSecondary,
   );
 
   // Button text
@@ -171,45 +178,6 @@ class AppAudio {
 
 /// Image asset constants
 class AppImages {
-  // Main app images
-  static const String panicAttackImage = 'assets/SSAttack.png';
-  static const String congratulationsImage = 'assets/cong.png';
-
-  // Breathing exercise images
-  static const String inhaleImage = 'assets/INHALE.png';
-  static const String holdImage = 'assets/HOLD.png';
-  static const String exhaleImage = 'assets/EXHALE.png';
-
-  // Smell exercise images
-  static const List<String> smellImages = [
-    'assets/Smell/F1.png',
-    'assets/Smell/F2.png',
-    'assets/Smell/F3.png',
-    'assets/Smell/F4.png',
-    'assets/Smell/F5.png',
-    'assets/Smell/F6.png',
-    'assets/Smell/F7.png',
-    'assets/Smell/F8.png',
-  ];
-
-  // Taste exercise images
-  static const List<String> tasteImages = [
-    'assets/Taste/cupcake.png',
-    'assets/Taste/doughnut.png',
-    'assets/Taste/icecream.png',
-    'assets/Taste/milkshake.png',
-    'assets/Taste/pancake.png',
-    'assets/Taste/pineapple.png',
-  ];
-
-  // Individual taste images
-  static const String cupcake = 'assets/Taste/cupcake.png';
-  static const String doughnut = 'assets/Taste/doughnut.png';
-  static const String icecream = 'assets/Taste/icecream.png';
-  static const String milkshake = 'assets/Taste/milkshake.png';
-  static const String pancake = 'assets/Taste/pancake.png';
-  static const String pineapple = 'assets/Taste/pineapple.png';
-
   // Prevent instantiation
   AppImages._();
 }
@@ -220,7 +188,7 @@ class GameConstants {
   static const int maxBubbleGenerationAttempts = 1000;
 
   // Color generation settings
-  static const double bubbleColorSaturation = 0.95;
+  static const double bubbleColorSaturation = 0.55;
   static const double bubbleColorValue = 0.95;
 
   // Prevent instantiation

@@ -5,6 +5,7 @@
 
 import 'package:flutter/material.dart';
 import '../constants/app_constants.dart';
+import 'botanical_background.dart';
 
 /// A standardized elevated button used throughout the app.
 ///
@@ -23,7 +24,7 @@ class AppElevatedButton extends StatelessWidget {
   /// Custom text style (optional, defaults to buttonLarge)
   final TextStyle? textStyle;
 
-  /// Custom background color (optional, defaults to primaryDark)
+  /// Custom background color (optional, defaults to primary)
   final Color? backgroundColor;
 
   const AppElevatedButton({
@@ -45,7 +46,7 @@ class AppElevatedButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
-          backgroundColor: backgroundColor ?? AppColors.primaryDark,
+          backgroundColor: backgroundColor ?? AppColors.primary,
           elevation: AppSizes.buttonElevation,
         ),
         child: Text(
@@ -120,7 +121,12 @@ class GradientBackground extends StatelessWidget {
           end: Alignment.bottomRight,
         ),
       ),
-      child: child,
+      child: BotanicalBackground(
+        color: Colors.transparent,
+        leafColor: Colors.white.withValues(alpha: 0.16),
+        flowerColor: Colors.white.withValues(alpha: 0.14),
+        child: child,
+      ),
     );
   }
 }
@@ -217,7 +223,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
           color: AppColors.textOnPrimary,
         ),
       ),
-      backgroundColor: backgroundColor ?? AppColors.primaryDark,
+      backgroundColor: backgroundColor ?? AppColors.primary,
       automaticallyImplyLeading: showBackButton,
       elevation: AppSizes.buttonElevation,
     );
@@ -305,7 +311,7 @@ class AppLoadingIndicator extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           CircularProgressIndicator(
-            color: color ?? AppColors.primaryDark,
+            color: color ?? AppColors.primary,
           ),
           if (message != null) ...[
             const SizedBox(height: AppSizes.spacingMedium),

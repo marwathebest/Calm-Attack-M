@@ -54,26 +54,12 @@
 - Visual audio spectrum animation
 - Helps anchor your mind in the present
 
-### 📳 **Vibration Focus Exercise**
-*Feel your way back to stability*
-- Simple start/stop vibration controls
-- Continuous haptic feedback for grounding
-- Rive animation accompaniment
-- Helps reconnect with your body
-
 ### 🌸 **Smell Imagination Exercise**
 *Transport yourself to tranquility*
 - Beautiful flower and nature imagery (8 different images)
 - Visual prompts for scent imagination
 - Calming visual arrangements
 - Engages olfactory memory
-
-### 🍃 **Taste Imagination Exercise**
-*Savor the moment, find your peace*
-- Appetizing food imagery (cupcake, doughnut, pancake, milkshake, ice cream, pineapple)
-- Visual prompts for taste imagination
-- Helps distract from panic-inducing thoughts
-- Mindful visualization techniques
 
 ### 🫧 **Bubble Pop Game**
 *Interactive mindfulness through focused play*

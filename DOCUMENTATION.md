@@ -57,8 +57,7 @@ To provide immediate, accessible, and effective panic attack relief through tech
 - **Framework**: Flutter 3.0+
 - **Language**: Dart
 - **Audio**: AudioPlayers package
-- **Animations**: Rive animations
-- **Haptics**: Vibration package
+- **Animations**: Flutter built-in animations
 - **State Management**: StatefulWidget pattern
 
 ### 🗂️ Project Structure
@@ -70,8 +69,6 @@ Calm-Attack/
 │   │   ├── start_screen.dart
 │   │   ├── breathing_screen.dart
 │   │   ├── audio_screen.dart
-│   │   ├── vibration_screen.dart
-│   │   ├── taste_screen.dart
 │   │   ├── smell_screen.dart
 │   │   ├── bubble_pop_game_screen.dart
 │   │   └── finish_screen.dart
@@ -89,9 +86,7 @@ Calm-Attack/
 ├── assets/                  # Static assets
 │   ├── *.png               # Images and icons
 │   ├── *.mp3               # Audio files (music and pop sounds)
-│   ├── *.riv               # Rive animations
 │   ├── Smell/              # Smell exercise images
-│   └── Taste/              # Taste exercise images
 ├── android/                # Android-specific code
 ├── ios/                    # iOS-specific code
 └── docs/                   # Documentation files
@@ -101,11 +96,9 @@ Calm-Attack/
 1. **Start Screen** → Get Started button
 2. **Breathing Screen** → 3-3-3 breathing exercise
 3. **Audio Screen** → Nature sounds and music  
-4. **Vibration Screen** → Haptic feedback exercise
-5. **Taste Screen** → Visual taste imagination
-6. **Smell Screen** → Visual scent imagination  
-7. **Bubble Pop Game** → Interactive cognitive engagement
-8. **Finish Screen** → Session completion and time tracking
+4. **Smell Screen** → Visual scent imagination  
+5. **Bubble Pop Game** → Interactive cognitive engagement
+6. **Finish Screen** → Session completion and time tracking
 
 ### 🏗️ Architecture Improvements (2025 Refactor)
 
@@ -139,7 +132,6 @@ The codebase underwent major refactoring to improve maintainability and contribu
 **Implementation**:
 - Visual breathing guide with expanding/contracting animation
 - Dynamic text display (INHALE, HOLD, EXHALE)
-- Rive animation integration
 - 3-second timing for each phase
 - Phase indicators with visual timing display
 
@@ -165,24 +157,6 @@ The codebase underwent major refactoring to improve maintainability and contribu
 
 **Mental Health Basis**: Based on mindfulness and grounding techniques used in CBT
 
-### 📳 Vibration Focus Exercise
-**Purpose**: Physical grounding through haptic feedback
-
-**Features**:
-- Start/Stop vibration controls
-- Continuous vibration pattern for grounding
-- Visual Rive animation accompaniment
-- Device vibration capability detection
-
-**Implementation**:
-- Platform-specific vibration APIs
-- Simple on/off vibration control
-- Rive animation integration (vibrationAni.riv)
-- Battery-conscious usage
-- Accessibility considerations
-
-**Mental Health Basis**: Somatic experiencing and body-based anxiety relief
-
 ### 🌸 Smell Imagination Exercise
 **Purpose**: Engage olfactory memory for calming visualization
 
@@ -199,23 +173,6 @@ The codebase underwent major refactoring to improve maintainability and contribu
 - Customizable duration
 
 **Mental Health Basis**: Olfactory system's direct connection to limbic system
-
-### 🍃 Taste Imagination Exercise
-**Purpose**: Distraction through detailed sensory imagination
-
-**Visual Elements**:
-- Sweet treats and desserts (cupcake, doughnut, pancake)
-- Refreshing beverages (milkshake, ice cream)
-- Fresh fruits (pineapple)
-- Appetizing food imagery
-
-**Implementation**:
-- Appetizing imagery positioned throughout the interface
-- Visual prompts for taste imagination
-- Multi-sensory engagement through appealing visuals
-- Pleasant association building through food imagery
-
-**Mental Health Basis**: Cognitive distraction and positive association therapy
 
 ### 🫧 Bubble Pop Game
 **Purpose**: Interactive cognitive redirection through focused gameplay
@@ -285,7 +242,6 @@ dependencies:
   provider: ^6.1.2          # State management (currently unused)
   audioplayers: ^6.0.0      # Audio playback
   rive: ^0.13.20            # Animations
-  vibration: ^3.1.3         # Haptic feedback
   cupertino_icons: ^1.0.2   # iOS-style icons
 
 dev_dependencies:
@@ -374,7 +330,7 @@ dev_dependencies:
 ### 🤖 Android
 - **Minimum SDK**: API 21 (Android 5.0)
 - **Target SDK**: Latest stable
-- **Permissions**: Vibration only
+- **Permissions**: None
 - **App Icon**: Adaptive icon support
 - **Material Design**: Platform-appropriate styling
 

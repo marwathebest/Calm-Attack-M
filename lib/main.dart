@@ -34,19 +34,20 @@ class CalmAttackApp extends StatelessWidget {
       // Theme configuration
       theme: ThemeData(
         // Primary color scheme
-        primarySwatch: Colors.blue,
-        primaryColor: AppColors.primaryDark,
+        primaryColor: AppColors.primary,
+        scaffoldBackgroundColor: AppColors.background,
 
         // Color scheme for Material 3
         colorScheme: ColorScheme.fromSeed(
-          seedColor: AppColors.primaryDark,
-          primary: AppColors.primaryDark,
-          secondary: AppColors.accentTeal,
+          seedColor: AppColors.primary,
+          primary: AppColors.primary,
+          secondary: AppColors.accentCoral,
+          surface: AppColors.background,
         ),
 
         // App bar theme
         appBarTheme: const AppBarTheme(
-          backgroundColor: AppColors.primaryDark,
+          backgroundColor: AppColors.primary,
           foregroundColor: AppColors.textOnPrimary,
           elevation: AppSizes.buttonElevation,
         ),
@@ -54,7 +55,7 @@ class CalmAttackApp extends StatelessWidget {
         // Elevated button theme
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
-            backgroundColor: AppColors.primaryDark,
+            backgroundColor: AppColors.primary,
             foregroundColor: AppColors.textOnPrimary,
             elevation: AppSizes.buttonElevation,
             textStyle: AppTextStyles.buttonLarge,
@@ -64,7 +65,7 @@ class CalmAttackApp extends StatelessWidget {
         // Text button theme
         textButtonTheme: TextButtonThemeData(
           style: TextButton.styleFrom(
-            foregroundColor: AppColors.primaryDark,
+            foregroundColor: AppColors.primary,
           ),
         ),
 

@@ -4,14 +4,18 @@
 /// manage panic attacks through controlled breathing patterns.
 /// Features a visual breathing animation and clear phase indicators.
 
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
-import '../Animations/breathing_cloud.dart';
+import '../Animations/breathing_flower.dart';
 import 'audio_screen.dart';
 import 'finish_screen.dart';
 import '../core/constants/app_constants.dart';
+import '../core/widgets/botanical_background.dart';
 import '../core/widgets/common_widgets.dart';
 import '../core/utils/navigation_utils.dart';
+import '../core/widgets/talk_button.dart';
 
 /// The breathing exercise screen widget.
 ///
@@ -49,32 +53,41 @@ class _BreathingScreenState extends State<BreathingScreen> {
     final screenSize = MediaQuery.of(context).size;
 
     return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            const SizedBox(height: AppSizes.spacingMedium),
+      floatingActionButton: const TalkToBloomButton(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
+      body: BotanicalBackground(
+        child: SafeArea(
+          child: Column(
+            children: [
+              const SizedBox(height: AppSizes.spacingMedium),
 
-            // Breathing phase indicators
-            const _BreathingPhases(),
+              // Breathing phase indicators
+              const _BreathingPhases(),
 
-            const SizedBox(height: AppSizes.spacingSmall),
+              const SizedBox(height: AppSizes.spacingSmall),
 
-            // Current breathing instruction
-            Text(
-              _breathingText,
-              style: AppTextStyles.bodyLarge,
-            ),
+              // Current breathing instruction
+              Text(
+                _breathingText,
+                style: AppTextStyles.bodyLarge,
+              ),
 
-            SizedBox(height: screenSize.height * 0.2),
+              // Flower that opens and closes with the breath
+              Expanded(
+                child: Center(
+                  child: BreathingFlower(
+                    size: min(screenSize.width * 0.8, 320),
+                    callback: _updateBreathingText,
+                  ),
+                ),
+              ),
 
-            // Animated breathing cloud with callback
-            BreathingCloud(callback: _updateBreathingText),
+              // Navigation buttons
+              _NavigationButtons(startTime: widget.startTime),
 
-            SizedBox(height: screenSize.height * 0.3),
-
-            // Navigation buttons
-            _NavigationButtons(startTime: widget.startTime),
-          ],
+              const SizedBox(height: AppSizes.spacingMedium),
+            ],
+          ),
         ),
       ),
     );
