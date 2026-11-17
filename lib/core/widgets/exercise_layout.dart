@@ -48,7 +48,8 @@ class ExerciseLayout extends StatelessWidget {
         child: SafeArea(
           child: Column(
             children: [
-              const SizedBox(height: AppSizes.spacingLarge),
+              // Room for the Talk to Bloom button in the top corner.
+              const SizedBox(height: talkButtonClearance),
               Text(
                 title,
                 textAlign: TextAlign.center,

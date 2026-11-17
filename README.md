@@ -1,5 +1,5 @@
 # Calm Attack 👾⚔️☁️
-
+to run =flutter run -d windows
 > *Transforming panic into peace, one breath at a time* ✨
 
 **Calm Attack** is an open-source Flutter-based mobile application designed to be a lifeline for individuals experiencing **Panic Attacks**. Empowering you to reclaim your strength and find peace in the storm, this app offers scientifically-backed grounding exercises to help you regain control when anxiety strikes.

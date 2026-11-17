@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import '../Animations/breathing_flower.dart';
 
 import 'breathing_screen.dart';
+import 'exercises_screen.dart';
 import '../core/constants/app_constants.dart';
 import '../core/widgets/botanical_background.dart';
 import '../core/widgets/common_widgets.dart';
@@ -79,6 +80,24 @@ class StartScreen extends StatelessWidget {
 
                         // Get Started button
                         _buildGetStartedButton(context),
+
+                        const SizedBox(height: AppSizes.spacingSmall),
+
+                        // Pick any exercise directly
+                        TextButton.icon(
+                          onPressed: () => NavigationUtils.navigateToScreen(
+                            context,
+                            const ExercisesScreen(),
+                          ),
+                          icon: const Icon(Icons.grid_view_rounded),
+                          label: const Text('All exercises'),
+                          style: TextButton.styleFrom(
+                            foregroundColor: AppColors.primaryDeep,
+                            textStyle: AppTextStyles.bodyLarge.copyWith(
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),

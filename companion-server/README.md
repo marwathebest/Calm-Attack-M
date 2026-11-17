@@ -15,9 +15,13 @@ You need Node.js 23.6 or newer (it runs TypeScript directly) and an OpenAI API k
 npm install
 ```
 
+Put your key in a `.env` file (copy `.env.example` to `.env` and fill it in). `.env` is ignored by git, so the key never goes to GitHub. Then:
+
 ```bash
-OPENAI_API_KEY=your-key npm start
+npm start
 ```
+
+On Windows you can instead run `start.ps1`: it asks for the key once (typing hidden) and offers to save it to `.env`.
 
 The server listens on `http://localhost:8787`. Check it with:
 

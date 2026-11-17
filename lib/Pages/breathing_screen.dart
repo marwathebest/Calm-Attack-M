@@ -59,7 +59,8 @@ class _BreathingScreenState extends State<BreathingScreen> {
         child: SafeArea(
           child: Column(
             children: [
-              const SizedBox(height: AppSizes.spacingMedium),
+              // Room for the Talk to Bloom button in the top corner.
+              const SizedBox(height: talkButtonClearance),
 
               // Breathing phase indicators
               const _BreathingPhases(),

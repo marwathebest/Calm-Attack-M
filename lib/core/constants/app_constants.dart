@@ -129,7 +129,6 @@ class AppSizes {
   // Screen ratios (as percentage of screen size)
   static const double buttonWidthRatio = 0.45;
   static const double imageWidthRatio = 0.8;
-  static const double bubbleSizeRatio = 0.12;
 
   // Prevent instantiation
   AppSizes._();
@@ -185,7 +184,6 @@ class AppImages {
 /// Game-specific constants
 class GameConstants {
   static const int totalBubbles = 20;
-  static const int maxBubbleGenerationAttempts = 1000;
 
   // Color generation settings
   static const double bubbleColorSaturation = 0.55;

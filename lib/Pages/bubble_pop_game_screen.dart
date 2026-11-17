@@ -96,7 +96,12 @@ class _BubblePopGameScreenState extends State<BubblePopGameScreen> {
   void _generateBubbles(double bubbleAreaWidth, double bubbleAreaHeight) {
     // Use 90% of the provided width to match the centered container
     final double effectiveWidth = bubbleAreaWidth * 0.9;
-    final double bubbleSize = bubbleAreaWidth * AppSizes.bubbleSizeRatio;
+    final layout = _BubbleLayout.fit(
+      effectiveWidth,
+      bubbleAreaHeight,
+      GameConstants.totalBubbles,
+    );
+    _bubbleSize = layout.bubbleSize;
 
     _bubbles.clear();
     _bubbleNumbers.clear();
@@ -104,51 +109,28 @@ class _BubblePopGameScreenState extends State<BubblePopGameScreen> {
 
     final colors = _generateUniqueVividColors(GameConstants.totalBubbles);
 
-    for (int i = 1; i <= GameConstants.totalBubbles; i++) {
-      final newBubblePosition = _findNonOverlappingPosition(
-        effectiveWidth,
-        bubbleAreaHeight,
-        bubbleSize,
-      );
+    // Each bubble gets its own grid cell, shuffled, with a random nudge
+    // inside the cell: it looks scattered but bubbles can never overlap.
+    final cells = List.generate(layout.columns * layout.rows, (i) => i)
+      ..shuffle(_random);
 
-      _bubbles.add(newBubblePosition);
+    for (int i = 1; i <= GameConstants.totalBubbles; i++) {
+      final cell = cells[i - 1];
+      final col = cell % layout.columns;
+      final row = cell ~/ layout.columns;
+      final slackX = layout.cellWidth - _bubbleSize;
+      final slackY = layout.cellHeight - _bubbleSize;
+      _bubbles.add(Offset(
+        col * layout.cellWidth + _random.nextDouble() * slackX,
+        row * layout.cellHeight + _random.nextDouble() * slackY,
+      ));
       _bubbleNumbers.add(i);
       _bubbleColors.add(colors[i - 1]);
     }
   }
 
-  /// Finds a non-overlapping position for a new bubble.
-  ///
-  /// Uses multiple attempts to find a position that doesn't overlap
-  /// with existing bubbles. Falls back to any position if max attempts reached.
-  Offset _findNonOverlappingPosition(
-    double bubbleAreaWidth,
-    double bubbleAreaHeight,
-    double bubbleSize,
-  ) {
-    Offset newBubblePosition;
-    int attempts = 0;
-
-    do {
-      newBubblePosition = Offset(
-        _random.nextDouble() * (bubbleAreaWidth - bubbleSize),
-        _random.nextDouble() * (bubbleAreaHeight - bubbleSize),
-      );
-      attempts++;
-
-      // Prevent infinite loops
-      if (attempts > GameConstants.maxBubbleGenerationAttempts) break;
-    } while (_isOverlapping(newBubblePosition, bubbleSize));
-
-    return newBubblePosition;
-  }
-
-  /// Checks if a bubble position overlaps with existing bubbles.
-  bool _isOverlapping(Offset position, double bubbleSize) {
-    return _bubbles.any((bubble) =>
-        (bubble.dx - position.dx).abs() < bubbleSize &&
-        (bubble.dy - position.dy).abs() < bubbleSize);
-  }
+  /// Size of every bubble, set when the bubbles are laid out.
+  double _bubbleSize = 0;
 
   /// Plays a random pop sound from the available sound effects.
   Future<void> _playPopSound() async {
@@ -282,7 +264,7 @@ class _BubblePopGameScreenState extends State<BubblePopGameScreen> {
 
   /// Builds the interactive bubble area.
   Widget _buildBubbleArea(double screenWidth, double bubbleAreaHeight) {
-    final double bubbleSize = screenWidth * AppSizes.bubbleSizeRatio;
+    final double bubbleSize = _bubbleSize;
 
     return Center(
       child: Container(
@@ -452,4 +434,36 @@ class _BubblePainter extends CustomPainter {
   @override
   bool shouldRepaint(_BubblePainter oldDelegate) =>
       oldDelegate.color != color || oldDelegate.number != number;
+}
+
+/// Splits the bubble area into a grid with at least one cell per bubble,
+/// shaped to match the area, and picks a bubble size that fits each cell
+/// with a little breathing room.
+class _BubbleLayout {
+  final int columns;
+  final int rows;
+  final double cellWidth;
+  final double cellHeight;
+  final double bubbleSize;
+
+  const _BubbleLayout(
+    this.columns,
+    this.rows,
+    this.cellWidth,
+    this.cellHeight,
+    this.bubbleSize,
+  );
+
+  /// Largest bubble that still feels comfortable to tap.
+  static const double _maxBubble = 110;
+
+  factory _BubbleLayout.fit(double width, double height, int count) {
+    final aspect = width / height;
+    final columns = max(1, (sqrt(count * aspect)).ceil());
+    final rows = max(1, (count / columns).ceil());
+    final cellWidth = width / columns;
+    final cellHeight = height / rows;
+    final bubble = min(min(cellWidth, cellHeight) * 0.88, _maxBubble);
+    return _BubbleLayout(columns, rows, cellWidth, cellHeight, bubble);
+  }
 }

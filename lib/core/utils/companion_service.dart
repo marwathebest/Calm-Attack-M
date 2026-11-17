@@ -41,8 +41,13 @@ class CompanionService {
   static bool get isConfigured => _url.isNotEmpty;
 
   /// Sends the conversation and returns the companion's next reply.
+  /// [checkInSummary] is the user's check-in log, sent only when they chose
+  /// to talk it through with Bloom.
   /// Never throws: on any failure it returns a calm fallback message.
-  static Future<String> reply(List<ChatMessage> conversation) async {
+  static Future<String> reply(
+    List<ChatMessage> conversation, {
+    String? checkInSummary,
+  }) async {
     if (!isConfigured) return offlineReply;
     try {
       final response = await http
@@ -54,6 +59,7 @@ class CompanionService {
             },
             body: jsonEncode({
               'messages': [for (final m in conversation) m.toJson()],
+              if (checkInSummary != null) 'checkIns': checkInSummary,
             }),
           )
           .timeout(const Duration(seconds: 60));

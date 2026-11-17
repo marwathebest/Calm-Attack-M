@@ -4,8 +4,11 @@
 /// management session and displays session statistics including
 /// the total time spent in the exercises.
 
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
+import 'checkin_screen.dart';
 import 'start_screen.dart';
 import '../Animations/sunset_bloom.dart';
 import '../core/constants/app_constants.dart';
@@ -62,6 +65,31 @@ class FinishScreen extends StatelessWidget {
 
                     const SizedBox(height: AppSizes.spacingLarge),
 
+                    // Optional check-in to learn possible triggers
+                    OutlinedButton.icon(
+                      onPressed: () => NavigationUtils.navigateToScreen(
+                        context,
+                        CheckInScreen(
+                          sessionMinutes:
+                              SessionUtils.calculateSessionDurationInMinutes(
+                            startTime,
+                          ),
+                        ),
+                      ),
+                      icon: const Icon(Icons.edit_note_rounded),
+                      label: const Text('Note what happened'),
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: AppColors.primaryDeep,
+                        side: const BorderSide(color: AppColors.primary),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 12,
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: AppSizes.spacingSmall),
+
                     // Back to Home button
                     _buildBackToHomeButton(context, screenSize),
                   ],
@@ -100,7 +128,10 @@ class FinishScreen extends StatelessWidget {
 
   /// Builds the celebration image with responsive sizing.
   Widget _buildCelebrationImage(Size screenSize) {
-    return SunsetBloom(size: screenSize.width * 0.7);
+    // Limit by height too, so it fits on wide screens such as the web.
+    return SunsetBloom(
+      size: min(screenSize.width * 0.7, screenSize.height * 0.38),
+    );
   }
 
   /// Builds the session duration display with formatting.

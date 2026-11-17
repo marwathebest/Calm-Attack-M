@@ -42,7 +42,10 @@ class AppElevatedButton extends StatelessWidget {
 
     return SizedBox(
       height: AppSizes.buttonHeight,
-      width: widthRatio != null ? screenWidth * widthRatio! : null,
+      // Scale with the screen, but stay a comfortable size on wide screens.
+      width: widthRatio != null
+          ? (screenWidth * widthRatio!).clamp(0.0, 320.0)
+          : null,
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(

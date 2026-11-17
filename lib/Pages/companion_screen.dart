@@ -12,7 +12,11 @@ import '../core/utils/companion_service.dart';
 import '../core/widgets/botanical_background.dart';
 
 class CompanionScreen extends StatefulWidget {
-  const CompanionScreen({super.key});
+  /// When set, the user chose to talk through their check-ins: Bloom gets
+  /// this summary and opens the conversation about it.
+  final String? checkInSummary;
+
+  const CompanionScreen({super.key, this.checkInSummary});
 
   @override
   State<CompanionScreen> createState() => _CompanionScreenState();
@@ -32,10 +36,29 @@ class _CompanionScreenState extends State<CompanionScreen> {
     ),
   ];
 
-  final List<ChatMessage> _messages = [..._greetings];
+  static const _patternsGreeting = [
+    ChatMessage(
+      role: 'assistant',
+      text: "Hi, I'm Bloom. Let's look at your check-ins together, gently.",
+    ),
+  ];
+
+  late final List<ChatMessage> _localGreeting =
+      widget.checkInSummary == null ? _greetings : _patternsGreeting;
+  late final List<ChatMessage> _messages = [..._localGreeting];
   final TextEditingController _input = TextEditingController();
   final ScrollController _scroll = ScrollController();
   bool _waiting = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // Start the patterns conversation so the user doesn't have to.
+    if (widget.checkInSummary != null) {
+      _input.text = 'Can you help me understand my check-ins?';
+      WidgetsBinding.instance.addPostFrameCallback((_) => _send());
+    }
+  }
 
   @override
   void dispose() {
@@ -56,7 +79,8 @@ class _CompanionScreenState extends State<CompanionScreen> {
 
     // The greetings are local, so the server only sees the real chat.
     final reply = await CompanionService.reply(
-      _messages.skip(_greetings.length).toList(),
+      _messages.skip(_localGreeting.length).toList(),
+      checkInSummary: widget.checkInSummary,
     );
     if (!mounted) return;
     setState(() {
